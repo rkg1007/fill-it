@@ -1,54 +1,57 @@
 import { Router } from 'express';
 import asyncWrapper from '../utils/async-wrapper';
-import routes from './routes';
+import definedRoutes from './routes';
 
-const router = Router();
+const mainRouter = Router(); // Clearer name for 'router'
 
-routes.forEach((route) => {
-  const { prefix, routes: moduleRoutes, middlewares: moduleMiddlewares } = route;
+definedRoutes.forEach((routeConfig) => {
+  const { prefix: routePrefix, routes: moduleRoutes, middlewares: moduleMiddlewares } = routeConfig;
+
   if (Array.isArray(moduleRoutes)) {
-    moduleRoutes.map((moduleRoute) => {
-      const { method, path, middlewares } = moduleRoute;
-      let apiMiddlewares = [];
+    moduleRoutes.forEach((moduleRouteConfig) => {
+      const { method: routeMethod, path: routePath, middlewares } = moduleRouteConfig;
+
+      const apiMiddlewares = [];
+
+      // Combine middlewares from different sources
       if (Array.isArray(moduleMiddlewares)) {
-        apiMiddlewares = apiMiddlewares.concat(moduleMiddlewares);
+        apiMiddlewares.push(...moduleMiddlewares);
       }
       if (Array.isArray(middlewares)) {
-        apiMiddlewares = apiMiddlewares.concat(middlewares);
+        apiMiddlewares.push(...middlewares);
       }
+
       if (apiMiddlewares.length > 0) {
-        const apiPath = prefix + path;
-        const apiMethod = method.toLowerCase();
-        apiMiddlewares = apiMiddlewares.map((middleware) => asyncWrapper(middleware));
-        console.log('registering route :-', method.toUpperCase(), apiPath);
-        switch (apiMethod) {
-          case 'get': {
-            router.get(apiPath, ...apiMiddlewares);
+        const fullApiPath = routePrefix + routePath;
+        const normalizedApiMethod = routeMethod.toLowerCase();
+
+        // Apply async wrapper to middlewares
+        const wrappedApiMiddlewares = apiMiddlewares.map((middleware) => asyncWrapper(middleware));
+
+        console.log('Registering route:', routeMethod.toUpperCase(), fullApiPath);
+
+        switch (normalizedApiMethod) {
+          case 'get':
+            mainRouter.get(fullApiPath, ...wrappedApiMiddlewares);
             break;
-          }
-          case 'post': {
-            router.post(apiPath, ...apiMiddlewares);
+          case 'post':
+            mainRouter.post(fullApiPath, ...wrappedApiMiddlewares);
             break;
-          }
-          case 'patch': {
-            router.patch(apiPath, ...apiMiddlewares);
+          case 'patch':
+            mainRouter.patch(fullApiPath, ...wrappedApiMiddlewares);
             break;
-          }
-          case 'put': {
-            router.put(apiPath, ...apiMiddlewares);
+          case 'put':
+            mainRouter.put(fullApiPath, ...wrappedApiMiddlewares);
             break;
-          }
-          case 'delete': {
-            router.delete(apiPath, ...apiMiddlewares);
+          case 'delete':
+            mainRouter.delete(fullApiPath, ...wrappedApiMiddlewares);
             break;
-          }
-          default: {
-            router.use(apiPath, ...apiMiddlewares);
-          }
+          default:
+            mainRouter.use(fullApiPath, ...wrappedApiMiddlewares);
         }
       }
     });
   }
 });
 
-export default router;
+export default mainRouter;
