@@ -1,0 +1,22 @@
+import {getAllUsers,getUser,UpdateUser} from '../repository/userRepo'
+
+
+
+export default getAllUsersService=async()=>{
+    return await getAllUsers();
+
+}
+
+
+export default getUserService=async(user)=>{
+const userId=user.userid
+return await getUser(userId);
+}
+
+
+export default UpdateUserService(req){
+    const {userid,fullName,email,password}=req.body,
+    const user= await  UpdataUser(userid,fullname,email,password);
+    res.json(user);
+
+}
