@@ -1,3 +1,7 @@
+import homeRoutes from './home';
 import authRoutes from './auth';
 
-export default [{ prefix: '/auth', routes: authRoutes }];
+export default [
+  { prefix: '', routes: homeRoutes },
+  { prefix: '/auth', routes: authRoutes },
+];
