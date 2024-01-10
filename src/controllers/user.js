@@ -1,5 +1,5 @@
 
-import * as userService from '../service/userService'
+import * as userService from '../service/user.js'
 
 export default getAllUsers=async (req,res)=>{
 
