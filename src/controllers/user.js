@@ -1,31 +1,22 @@
+import * as userService from '../services/user.js';
 
-import * as userService from '../service/user.js'
+export var getAllUsers = async () => {
+  const users = userService.getAllUsers();
+  return users;
+};
 
-export default getAllUsers=async (req,res)=>{
+export var getUser = async (req) => {
+  const user = userService.getUser(req.params);
+  return user;
+};
 
-        const users=userService.getAllUsers();
-        res.json(users);
+export var getMe = async (req) => {
+  const USER = req.user;
+  const user = userService.getUser(USER);
+  return user;
+};
 
+export function UpdateUser(req) {
+  const user = userService.UpdateUser(req);
+  return user;
 }
-
-export default getUser=async (req,res)=>{
-    
-    const user=userService.getUser(req.params);
-    return user;
-
-}
-
-
-export default getMe=async (req,res)=>{
-    const USER=req.user 
-    const user=userService.getUser(USER);
-    return user;
-
-}
-
-export default UpdateUser(req,res){
-    const user=userService.UpdateUser(req);
-    return user;
-}
-
-
