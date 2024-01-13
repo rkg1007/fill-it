@@ -1,42 +1,28 @@
-import authorisation_admin from '../auth/authorisation_admin'
-import authentication from '../auth/authentication'
-import {getAllUserController, getUserController,getMeController,UpdateUserController,DeleteUserController} from '../controllers/userControllers'
+import * as userController from '../controllers/user.js';
 
+export default [
+  {
+    method: 'get',
+    path: '/',
+    middlewares: [userController.getAllUsers],
+  },
 
-export default
-[
-    {
-    method:'get',
-    path:'/',
-    middlewares:[authenticate,authorisation_admin],
-    functions:[getAllUsersController]
-}
+  {
+    method: 'get',
+    path: '/:userId',
+    middlewares: [userController.getUser],
+  },
 
-   {
-    method:'get',
-    path:'/:userId',
-    middlewares:[authenticate,authorisation_admin],
-    functions:[getUserController]
-}
+  {
+    method: 'get',
+    path: '/me',
+    middlewares: [userController.getMe],
+  },
 
- {
-   method:'get',
-    path:'/me',
-    middlewares:[authenticate,authorisation],
-    functions:[getMeController]
+  {
+    method: 'patch',
+    path: '/:userId',
+    middlewares: [userController.UpdateUser],
+  },
+];
 
-}
-
-{
-    method:'patch',
-    path:'/:userId',
-    middlewares:[authenticate,authorisation_admin,authorisation],
-    functions:[UpdateUserController]
-}
-{
-    method:'delete',
-    path:'/:userId',
-    middlewares:[authenticate,authorisation_admin,authorisation],
-    functions:[DeleteUserController]
-}
-]
