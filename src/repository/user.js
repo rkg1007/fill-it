@@ -2,8 +2,7 @@ import { getCollection } from '../database/mongodb';
 
 export async function getAllUsers() {
   const users_db = await getCollection('users');
-  const user = await users_db.insertOne({ name: 'Anusha', password: 'arjun', UserId: 'anu' });
-  const users = await users_db.find(user);
+  const users = await users_db.find();
   console.log(users);
   return users;
 }
