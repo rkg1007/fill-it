@@ -9,20 +9,17 @@ export default [
 
   {
     method: 'get',
-    path: '/:userId',
-    middlewares: [userController.getUser],
-  },
-
-  {
-    method: 'get',
     path: '/me',
     middlewares: [userController.getMe],
   },
-
+  {
+    method: 'get',
+    path: '/:userId',
+    middlewares: [userController.getUser],
+  },
   {
     method: 'patch',
     path: '/:userId',
-    middlewares: [userController.UpdateUser],
+    middlewares: [userController.updateUser],
   },
 ];
-

@@ -13,19 +13,19 @@ export const handleGoogleResponse = async ({ code }) => {
   try {
     const userInfo = await googleApi.getUserInfo(code);
 
-    const userEmail = userInfo.email; // Extract email directly
+    const userEmail = userInfo.email;
     const existingUser = await userRepository.getUserByEmail(userEmail);
 
     if (!existingUser) {
       const { name, picture } = userInfo;
       const userId = await userRepository.createUser({ name, email: userEmail, picture });
       const newUser = { name, email: userEmail, _id: userId };
-      return generateRedirectUrlWithToken(newUser); // Reuse function for clarity
+      return generateRedirectUrlWithToken(newUser);
     } else {
-      return generateRedirectUrlWithToken(existingUser); // Reuse function for clarity
+      return generateRedirectUrlWithToken(existingUser);
     }
   } catch (error) {
-    console.error('Error handling Google response:', error); // Log error for debugging
+    console.log('Something went wrong while logging.', error.message);
     return frontendRedirectUrl;
   }
 };
