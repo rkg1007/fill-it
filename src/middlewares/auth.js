@@ -2,7 +2,7 @@ import UnauthenticatedError from '../errors';
 import * as jwt from '../utils/jwt';
 
 export default function () {
-  return (req, _res, next) => {
+  return async (req, _res, next) => {
     const user = getLoggedInUser(req);
 
     if (!user) {
@@ -10,7 +10,7 @@ export default function () {
     }
 
     req.loggedInUser = user;
-    next();
+    await next();
   };
 }
 
