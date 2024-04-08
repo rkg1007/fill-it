@@ -2,7 +2,7 @@ import { Router } from 'express';
 import asyncWrapper from '../utils/async-wrapper';
 import definedRoutes from './routes';
 
-const mainRouter = Router(); // Clearer name for 'router'
+const mainRouter = Router();
 
 definedRoutes.forEach((routeConfig) => {
   const { prefix: routePrefix, routes: moduleRoutes, middlewares: moduleMiddlewares } = routeConfig;
@@ -32,22 +32,22 @@ definedRoutes.forEach((routeConfig) => {
 
         switch (normalizedApiMethod) {
           case 'get':
-            mainRouter.get(fullApiPath, ...wrappedApiMiddlewares);
+            mainRouter.get(fullApiPath, wrappedApiMiddlewares);
             break;
           case 'post':
-            mainRouter.post(fullApiPath, ...wrappedApiMiddlewares);
+            mainRouter.post(fullApiPath, wrappedApiMiddlewares);
             break;
           case 'patch':
-            mainRouter.patch(fullApiPath, ...wrappedApiMiddlewares);
+            mainRouter.patch(fullApiPath, wrappedApiMiddlewares);
             break;
           case 'put':
-            mainRouter.put(fullApiPath, ...wrappedApiMiddlewares);
+            mainRouter.put(fullApiPath, wrappedApiMiddlewares);
             break;
           case 'delete':
-            mainRouter.delete(fullApiPath, ...wrappedApiMiddlewares);
+            mainRouter.delete(fullApiPath, wrappedApiMiddlewares);
             break;
           default:
-            mainRouter.use(fullApiPath, ...wrappedApiMiddlewares);
+            mainRouter.use(fullApiPath, wrappedApiMiddlewares);
         }
       }
     });

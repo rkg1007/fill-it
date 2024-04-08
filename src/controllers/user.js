@@ -1,22 +1,21 @@
 import * as userService from '../services/user.js';
 
-export var getAllUsers = async () => {
-  const users = userService.getAllUsers();
+export const getAllUsers = async () => {
+  const users = await userService.getAllUsers();
   return users;
 };
 
-export var getUser = async (req) => {
-  const user = userService.getUser(req.params);
+export const getUser = async () => {
+  const user = await userService.getUser();
   return user;
 };
 
-export var getMe = async (req) => {
-  const USER = req.user;
-  const user = userService.getUser(USER);
-  return user;
+export const getMe = async (req) => {
+  const { loggedInUser } = req;
+  return loggedInUser;
 };
 
-export function UpdateUser(req) {
-  const user = userService.UpdateUser(req);
-  return user;
-}
+export const updateUser = async () => {
+  const updateResult = await userService.updateUser();
+  return updateResult;
+};

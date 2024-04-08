@@ -1,17 +1,11 @@
-import * as userRepo from '../repository/user.js';
-
 export const getAllUsers = async () => {
-  return await userRepo.getAllUsers();
+  return [];
 };
 
-export var getUser = async (user) => {
-  const userId = user.userid;
-  return await userRepo.getUser(userId);
+export const getUser = async () => {
+  return {};
 };
 
-export async function UpdateUser(req) {
-  const { userid, fullName, email, password } = req.body;
-  const user = await userRepo.UpdateUser(userid, fullName, email, password);
-  return user;
-}
-
+export const updateUser = async () => {
+  return true;
+};
